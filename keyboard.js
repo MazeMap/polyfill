@@ -603,7 +603,12 @@
 
   var codeTable = remap(keyCodeToInfoTable, 'code');
 
-  var nativeLocation = 'KeyboardEvent' in global && 'location' in new KeyboardEvent('');
+  var nativeLocation = 'KeyboardEvent' in global;
+  try {
+    nativeLocation &= 'location' in new KeyboardEvent('');
+  } catch (e) {
+    nativeLocation = false;
+  }
 
   function keyInfoForEvent(event) {
     var keyCode = 'keyCode' in event ? event.keyCode : 'which' in event ? event.which : 0;
